@@ -1,7 +1,8 @@
 import express from 'express';
+import authRouter from './auth'
 
 const app = express();
 
-app.use((req, res) => res.status(201).send({ token: 'asdad.asd.sadasd' }));
+app.use(authRouter);
 
 export default app;
