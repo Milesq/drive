@@ -2,9 +2,9 @@ import request from 'supertest'
 import app from '../src/app'
 
 describe('register system', () => {
-  test('register works only on POST method', async () => {
+/*  test('register works only on POST method', async () => {
     await request(app).get('/auth/register').expect(404)
-  })
+  })*/
 
   test("register fails when user data isn't provided or incomplete", async () => {
     await request(app).post('/auth/register').expect(400)
@@ -74,7 +74,7 @@ describe('register system', () => {
   })
 })
 
-describe('login system', () => {
+xdescribe('login system', () => {
   test("login fails when user data isn't provided or incomplete", async () => {
     await request(app).post('/auth/login').expect(400)
     await request(app)
