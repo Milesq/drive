@@ -1,20 +1,16 @@
 import { Router } from 'express';
-import mongoose from 'mongoose';
+import { User } from './model';
 
 const router = Router();
-
-const userSchema = new mongoose.Schema({
-  name: String,
-  password: String,
-  phoneNumber: String,
-});
-
-const User = mongoose.model('user', userSchema);
 
 router.post('/auth/register', (req, res) => {
   res.send('knaga papaja owns me and all');
 
-  new User({userName: 'Wojciuch', password: 'AZAZA!', phoneNumber: '+48 997 997 997'}).save();
-})
+  new User({
+    userName: 'foo',
+    password: 'bar',
+    phoneNumber: '123 456 789',
+  }).save();
+});
 
 export default router;
