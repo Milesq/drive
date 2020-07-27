@@ -2,7 +2,7 @@ import request from 'supertest'
 import app from '../src/app'
 
 describe('register system', () => {
-  test("register fails when user data isn't provided or incomplete", async () => {
+  it("register fails when user data isn't provided or incomplete", async () => {
     await request(app).post('/auth/register').expect(400)
     await request(app)
       .post('/auth/register')
@@ -16,7 +16,7 @@ describe('register system', () => {
       .expect(400)
   })
 
-  test('register fails when user data is incorrect', async () => {
+  it('register fails when user data is incorrect', async () => {
     const incorrectData = [
       { name: '$!`"' },
       { pass: '' },
@@ -46,11 +46,11 @@ describe('register system', () => {
     await Promise.all(allExamples)
   })
 
-  test('register fails when user already exists', () => {
+  it('register fails when user already exists', () => {
     expect(4).not.toBe(4)
   })
 
-  test('register returns token', async () => {
+  it('register returns token', async () => {
     const response = await request(app)
       .post('/auth/register')
       .set('Content-Type', 'application/json')
@@ -71,7 +71,7 @@ describe('register system', () => {
 })
 
 describe('login system', () => {
-  test("login fails when user data isn't provided or incomplete", async () => {
+  it("login fails when user data isn't provided or incomplete", async () => {
     await request(app).post('/auth/login').expect(400)
     await request(app)
       .post('/auth/login')
@@ -84,7 +84,7 @@ describe('login system', () => {
       .expect(400)
   })
 
-  test('login is succesfull when correct data is provided', async () => {
+  it('login is succesfull when correct data is provided', async () => {
     const response = await request(app)
       .post('/auth/login')
       .set('Content-Type', 'application/json')
