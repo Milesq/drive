@@ -1,7 +1,13 @@
+import mockingoose from 'mockingoose'
 import request from 'supertest'
 import app from '../src/app'
+import { User } from '../src/model'
 
 describe('register system', () => {
+  beforeEach(() => {
+    mockingoose.resetAll()
+  })
+
   it("register fails when user data isn't provided or incomplete", async () => {
     await request(app).post('/auth/register').expect(400)
     await request(app)
@@ -46,8 +52,22 @@ describe('register system', () => {
     await Promise.all(allExamples)
   })
 
-  it('register fails when user already exists', () => {
-    expect(4).not.toBe(4)
+  it('register fails when user already exists', async () => {
+    mockingoose(User).toReturn({ name: 'foo' })
+
+    const resp = await request(app)
+      .post('/auth/register')
+      .set('Content-Type', 'application/json')
+      .send({
+        user: {
+          name: 'foo',
+          pass: 'zaq1@WSX',
+          phone: '123456789',
+        },
+      })
+      .expect(409)
+
+    expect(resp.body?.err).toBeDefined()
   })
 
   it('register returns token', async () => {
