@@ -1,7 +1,7 @@
 import mockingoose from 'mockingoose'
 import request from 'supertest'
-import app from '../src/app'
-import { User } from '../src/model'
+import app from '../../src/app'
+import { User } from '../../src/model'
 
 describe('register system', () => {
   beforeEach(() => {
