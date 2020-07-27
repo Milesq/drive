@@ -8,7 +8,7 @@ describe('register system', () => {
     mockingoose.resetAll()
   })
 
-  it("register fails when user data isn't provided or incomplete", async () => {
+  it('register fails when user data is incomplete or not provided', async () => {
     await request(app).post('/auth/register').expect(400)
     await request(app)
       .post('/auth/register')
