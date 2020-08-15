@@ -6,9 +6,16 @@ const router = Router();
 
 router.use(bodyparser.json());
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   const validPhoneNumber = /^(\+[0-9]{2})?[0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$/i;
-  const { name, pass, phone } = req.body.user;
+  const { name, pass, phone } = req.body?.user;
+
+  console.log(`Name: ${name} Pass: ${pass} Phone ${phone}`);
+
+  const user = await User.findOne({ name });
+
+  if (user !== null)
+    return res.status(409).send({ err: 'User already exists!' });
 
   if (!validPhoneNumber.test(phone))
     return res.status(400).send({ err: 'Invalid phone number!' });
