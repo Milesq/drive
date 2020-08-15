@@ -1,16 +1,28 @@
 import { Router } from 'express';
-import { User } from './model';
+import bodyparser from 'body-parser';
 
 const router = Router();
 
-router.post('/register', (req, res) => {
-  res.send('Hello world');
+router.use(bodyparser.json());
 
-  new User({
-    userName: 'foo',
-    password: 'bar',
-    phoneNumber: '123 456 789',
-  }).save();
+router.post('/register', (req, res) => {
+  const validPhoneNumber = /^(\+[0-9]{2})?[0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$/i;
+  const { name, pass, phone } = req.body.user;
+
+  if (!validPhoneNumber.test(phone)) {
+    res.status(400).send('Invalid phone number!');
+    return;
+  }
+
+  if (name.length < 3) {
+    res.status(400).send({ err: 'Name is too short!' });
+    return;
+  }
+
+  if (pass.length < 6) {
+    res.status(400).send({ err: 'Password is too short!' });
+    return;
+  }
 });
 
 export default router;
