@@ -10,18 +10,15 @@ router.post('/register', (req, res) => {
   const { name, pass, phone } = req.body.user;
 
   if (!validPhoneNumber.test(phone)) {
-    res.status(400).send('Invalid phone number!');
-    return;
+    return res.status(400).send('Invalid phone number!');
   }
 
   if (name.length < 3) {
-    res.status(400).send({ err: 'Name is too short!' });
-    return;
+    return res.status(400).send({ err: 'Name is too short!' });
   }
 
   if (pass.length < 6) {
-    res.status(400).send({ err: 'Password is too short!' });
-    return;
+    return res.status(400).send({ err: 'Password is too short!' });
   }
 });
 
