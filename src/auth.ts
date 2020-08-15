@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import bodyparser from 'body-parser';
+import { User } from './model';
 
 const router = Router();
 
@@ -17,7 +18,15 @@ router.post('/register', (req, res) => {
 
   if (pass.length < 6)
     return res.status(400).send({ err: 'Password is too short!' });
-  }
+
+  new User({
+    userName: name,
+    password: pass,
+    phoneNumber: phone,
+  })
+    .save()
+    .then(() => res.status(201).send({ token: 'a.b.c' }))
+    .catch(() => res.status(500).send({ err: 'Cannot save to database.' }));
 });
 
 export default router;

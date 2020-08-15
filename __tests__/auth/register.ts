@@ -83,7 +83,6 @@ describe('register system', () => {
       })
       .expect(201)
 
-    expect(response.body?.token).toBeInstanceOf(String)
     expect(response.body?.token).toMatch(
       /^[0-9a-z]+\.[0-9a-z]+\.[0-9a-z]+$/i
     )
