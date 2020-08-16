@@ -28,7 +28,7 @@ describe('register system', () => {
       .expect(400)
   })
 
-  describe('register fails when user data is incorrect', async () => {
+  describe('fails when user data is incorrect', () => {
     function sendDamagedRequest(incorrect: RegisterData) {
       return request(app)
         .post('/auth/register')
@@ -44,7 +44,7 @@ describe('register system', () => {
         .expect(400)
     }
 
-    it("when name is'not alphanumeric", () =>
+    it("when name isn't alphanumeric", () =>
       sendDamagedRequest({ name: '$!`"' }))
 
     it("when pass isn't passed", () =>
@@ -53,14 +53,14 @@ describe('register system', () => {
     it('when phone is too short', () =>
       sendDamagedRequest({ phone: '34' }))
 
-    it('when phone is not number', () =>
+    it("when phone isn't number", () =>
       sendDamagedRequest({ phone: '123456789sadasd' }))
 
-    it('when phone is not numeric', () =>
+    it("when phone isn't numeric", () =>
       sendDamagedRequest({ phone: 'sadasd' }))
   })
 
-  it('register fails when user already exists', async () => {
+  it('fails when user already exists', async () => {
     mockingoose(User).toReturn({ name: 'foo' })
 
     const resp = await request(app)
@@ -78,7 +78,7 @@ describe('register system', () => {
     expect(resp.body?.err).toBeDefined()
   })
 
-  it('register returns token', async () => {
+  it('returns token', async () => {
     const response = await request(app)
       .post('/auth/register')
       .set('Content-Type', 'application/json')
