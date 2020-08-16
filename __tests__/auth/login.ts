@@ -1,9 +1,7 @@
-import mockingoose from 'mockingoose'
 import request from 'supertest'
 import app from '../../src/app'
-import { User } from '../../src/model'
 
-describe('login system', () => {
+xdescribe('login system', () => {
   it("login fails when user data isn't provided or incomplete", async () => {
     await request(app).post('/auth/login').expect(400)
     await request(app)
