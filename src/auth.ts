@@ -14,8 +14,7 @@ router.post('/register', async (req, res) => {
 
   const user = await User.findOne({ name });
 
-  if (user !== null)
-    return res.status(409).send({ err: 'User already exists!' });
+  if (user) return res.status(409).send({ err: 'User already exists!' });
 
   if (!validPhoneNumber.test(phone))
     return res.status(400).send({ err: 'Invalid phone number!' });
