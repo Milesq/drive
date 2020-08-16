@@ -13,6 +13,7 @@
     "lint": "eslint . --ext .ts,.js",
     "lint:fix": "eslint . --ext .ts,.js --fix",
     "test": "jest",
+    "collect-coverage": "jest --coverage",
     "infect": "stryker run"
   },
   "dependencies": {
