@@ -6,11 +6,18 @@ const router = Router();
 
 router.use(bodyparser.json());
 
+interface RegisterData {
+  user: {
+    name?: string;
+    pass?: string;
+    phone?: string;
+  };
+}
+
 router.post('/register', async (req, res) => {
   const validPhoneNumber = /^(\+[0-9]{2})?[0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$/i;
-  const { name, pass, phone } = req.body?.user;
-
-  console.log(`Name: ${name} Pass: ${pass} Phone ${phone}`);
+  const validName = /^[a-z\-_]{3,}$/i;
+  const { name, pass, phone } = (req.body as RegisterData)?.user;
 
   const user = await User.findOne({ name });
 
@@ -19,8 +26,10 @@ router.post('/register', async (req, res) => {
   if (!validPhoneNumber.test(phone))
     return res.status(400).send({ err: 'Invalid phone number!' });
 
-  if (name.length < 3)
-    return res.status(400).send({ err: 'Name is too short!' });
+  if (!validName.test(name))
+    return res
+      .status(400)
+      .send({ err: 'Name contains disallowed chars or is too short' });
 
   if (pass.length < 6)
     return res.status(400).send({ err: 'Password is too short!' });
