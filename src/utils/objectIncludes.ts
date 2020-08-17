@@ -1,1 +1,5 @@
-export default (obj: any, ...requiredItems: string[]): boolean => true;
+export default <T>(obj: T, ...requiredItems: string[]): boolean => {
+  const keys = Object.keys(obj);
+
+  return requiredItems.every(item => keys.includes(item));
+};
