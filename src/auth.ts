@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import bodyparser from 'body-parser';
 import { User } from './model';
+import { objectIncludes } from './utils';
 
 const router = Router();
 
@@ -17,6 +18,13 @@ interface RegisterData {
 router.post('/register', async (req, res) => {
   const validPhoneNumber = /^(\+[0-9]{2})?[0-9]{3}[\s-]?[0-9]{3}[\s-]?[0-9]{3}$/i;
   const validName = /^[a-z\-_]{3,}$/i;
+
+  if (!objectIncludes(req.body?.user || {}, 'name', 'pass', 'phone')) {
+    return res
+      .status(400)
+      .send({ err: 'name, pass and phone are required in body' });
+  }
+
   const { name, pass, phone } = (req.body as RegisterData)?.user;
 
   const user = await User.findOne({ name });
