@@ -61,7 +61,7 @@ describe('registration system', () => {
   })
 
   it('fails when user already exists', async () => {
-    mockingoose(User).toReturn({ name: 'foo' })
+    mockingoose(User).toReturn({ name: 'foo' }, 'findOne')
 
     const resp = await request(app)
       .post('/auth/register')
