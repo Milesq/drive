@@ -7,3 +7,4 @@ coverage/
 
 # stryker temp files
 .stryker-tmp
+reports/
