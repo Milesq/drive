@@ -9,12 +9,12 @@ interface RegisterData {
   phone?: string
 }
 
-describe('register system', () => {
+describe('registration system', () => {
   beforeEach(() => {
     mockingoose.resetAll()
   })
 
-  it("register fails when user data isn't provided or incomplete", async () => {
+  it("fails when user data isn't provided or incomplete", async () => {
     await request(app).post('/auth/register').expect(400)
     await request(app)
       .post('/auth/register')
