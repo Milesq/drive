@@ -2,19 +2,10 @@
   "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
   "mutator": "typescript",
   "packageManager": "yarn",
-  "reporters": [
-    "html",
-    "clear-text",
-    "progress",
-    "dashboard"
-  ],
+  "reporters": ["html", "clear-text", "progress"],
   "testRunner": "jest",
-  "transpilers": [
-    "typescript"
-  ],
+  "transpilers": ["typescript"],
   "coverageAnalysis": "off",
   "tsconfigFile": "tsconfig.json",
-  "mutate": [
-    "src/**/*.ts"
-  ]
+  "mutate": ["src/**/*.ts", "!src/main.ts", "!src/model/**/*.ts"]
 }
