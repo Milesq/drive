@@ -8,3 +8,6 @@ coverage/
 # stryker temp files
 .stryker-tmp
 reports/
+
+# npm lock file
+package-lock.json
