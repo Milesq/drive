@@ -23,6 +23,20 @@ describe('Upload endpoint', () => {
     ).toBeTruthy()
     // TODO: Send user token
   })
+
+  it('denied unauthorized user saving files', () => {
+    request(app)
+      .put('/upload')
+      .attach('file', 'path/to/file')
+      .send({
+        fileName: 'file.jpg',
+      })
+      .expect(401)
+
+    expect(
+      fs.existsSync('./static/username/file.jpg')
+    ).toBeFalsy()
+  })
 })
 
-// TODO: If file exists, go fuck yourself
+// TODO: If file exists, go fuck yourself KYS
