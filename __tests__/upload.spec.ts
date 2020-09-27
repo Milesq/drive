@@ -1,36 +1,36 @@
 import fs from 'fs'
+import jwt from 'jsonwebtoken'
 import mockFs from 'mock-fs'
 import request from 'supertest'
 import app from '../src/app'
 
-// TODO: Only authorized users can upload files
-
 describe('Upload endpoint', () => {
+  beforeEach(() => {
+    mockFs({
+      'hello.txt': 'hello world',
+    })
+  })
   afterEach(() => mockFs.restore())
 
   it('creates the file when request is correct', async () => {
-    mockFs({})
+    const user = 'john'
+    const token = jwt.sign({ user }, 'privateKey')
+
     await request(app)
       .put('/upload')
-      .attach('file', 'path/to/file')
-      .send({
-        fileName: 'file.jpg',
-      })
+      .set('Authorization', `Bearer ${token}`)
+      .attach('file', 'hello.txt')
       .expect(201)
 
     expect(
-      fs.existsSync('./static/username/file.jpg')
+      fs.existsSync(`./static/${user}/hello.txt`)
     ).toBeTruthy()
-    // TODO: Send user token
   })
 
-  it('denied unauthorized user saving files', () => {
-    request(app)
+  it('denied unauthorized user saving files', async () => {
+    await request(app)
       .put('/upload')
       .attach('file', 'path/to/file')
-      .send({
-        fileName: 'file.jpg',
-      })
       .expect(401)
 
     expect(
