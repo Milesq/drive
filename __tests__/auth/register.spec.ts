@@ -92,7 +92,7 @@ describe('registration system', () => {
       .expect(201)
 
     expect(response.body?.token).toMatch(
-      /^[0-9a-z]+\.[0-9a-z]+\.[0-9a-z]+$/i
+      /^([a-zA-Z0-9-_.]+\.){2}[a-zA-Z0-9-_.]+$/i
     )
   })
 })
