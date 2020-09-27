@@ -43,8 +43,8 @@ router.post('/register', async (req, res) => {
     return res.status(400).send({ err: 'Password is too short!' });
 
   new User({
-    userName: name,
-    password: pass,
+    name,
+    pass,
     phoneNumber: phone,
   })
     .save()
