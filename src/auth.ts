@@ -43,13 +43,15 @@ router.post('/register', async (req, res) => {
   if (pass.length < 6)
     return res.status(400).send({ err: 'Password is too short!' });
 
+  const token = jwt.sign({ user: name }, 'privateKey');
+
   new User({
     name,
     pass,
     phoneNumber: phone,
   })
     .save()
-    .then(() => res.status(201).send({ token: 'a.b.c' }))
+    .then(() => res.status(201).send({ token }))
     .catch(() => res.status(500).send({ err: 'Cannot save to database.' }));
 });
 
