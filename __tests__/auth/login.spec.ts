@@ -43,6 +43,14 @@ describe('login system', () => {
   })
 
   it('login is succesfull when correct data is provided', async () => {
+    mockingoose(User).toReturn(
+      {
+        name: 'John',
+        pass: 'zaq1@WSX',
+      },
+      'findOne'
+    )
+
     const response = await request(app)
       .post('/auth/login')
       .set('Content-Type', 'application/json')
@@ -54,7 +62,6 @@ describe('login system', () => {
       })
       .expect(200)
 
-    expect(response.body?.token).toBeInstanceOf(String)
     expect(response.body?.token).toMatch(
       /^[0-9a-z]+\.[0-9a-z]+\.[0-9a-z]+$/i
     )
