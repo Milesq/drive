@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import bodyparser from 'body-parser';
+import jwt from 'jsonwebtoken';
 import { User } from './model';
 import { objectIncludes } from './utils';
 
@@ -50,6 +51,34 @@ router.post('/register', async (req, res) => {
     .save()
     .then(() => res.status(201).send({ token: 'a.b.c' }))
     .catch(() => res.status(500).send({ err: 'Cannot save to database.' }));
+});
+
+router.post('/login', async (req, res) => {
+  if (!objectIncludes(req.body?.user || {}, 'name', 'pass')) {
+    return res
+      .status(400)
+      .send({ err: 'both name and pass are required in body' });
+  }
+
+  const { name, pass } = (req.body as RegisterData)?.user;
+
+  const foundedUser = await User.findOne({ name });
+
+  if (foundedUser === null) {
+    return res.status(400).send({
+      err: 'userNotFound',
+    });
+  }
+
+  if (foundedUser.pass !== pass) {
+    return res.status(401).send({
+      err: 'passwordIncorrect',
+    });
+  }
+
+  const token = jwt.sign({ user: foundedUser.name }, 'privateKey');
+
+  res.send({ token });
 });
 
 export default router;
