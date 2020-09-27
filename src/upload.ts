@@ -1,10 +1,17 @@
 import { Router } from 'express';
-import bodyparser from 'body-parser';
+import fileUpload from 'express-fileupload';
+import passport from 'passport';
 
 const router = Router();
 
-router.use(bodyparser.json());
+router.use(fileUpload());
 
-router.put('/', (req, res) => {});
+router.put(
+  '/',
+  passport.authenticate('bearer', { session: false }),
+  (req, res) => {
+    res.send(req.user);
+  }
+);
 
 export default router;
